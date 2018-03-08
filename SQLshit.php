@@ -13,7 +13,7 @@ try {
 }
 $sql = "SELECT * FROM jn232.accounts where id < 6";
 $result = $conn->query($sql);
-
+echo 'Results: ' . "$result";
 if ($result->num_rows > 0) {
     echo "<table><tr><th>ID</th><th>Name</th></tr>";
     // output data of each row
