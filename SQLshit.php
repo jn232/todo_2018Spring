@@ -7,23 +7,22 @@ $hostname = 'sql.njit.edu';
 $dsn = "mysql:host=$hostname;dbname=$username";
 try {
     $conn = new PDO($dsn, $username, $password);
-    echo "Connected successfully<br>";
+     echo "Connected successfully<br>";
 } catch(PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
-$sql = "SELECT * FROM jn232.accounts where id < 6";
-$result = $conn->query($sql);
-echo 'Results: ' . "$result";
-if ($result->num_rows > 0) {
-    echo "<table><tr><th>ID</th><th>Name</th></tr>";
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        echo "<tr><td>".$row["id"]."</td><td>".$row["firstname"]." ".$row["lastname"]."</td></tr>";
-    }
-    echo "</table>";
-} else {
-    echo "0 results";
-}
-
+$query = 'SELECT * FROM accounts WHERE id < 6';
+     $statement = $conn->prepare($query);
+     $statement->execute();
+     $accounts = $statements->fetchAll();
+     $statement->closeCursor();
 $conn = null;
 ?>
+
+<?php foreach ($accounts as $account) : ?>
+     <tr>
+       <td><?php echo $account['id']; ?></td>
+       <td><?php echo $account['fname']; ?></td>
+       <td><?php echo $account['email']; ?></td>
+     </tr>
+     <?php endforeach; ?>
